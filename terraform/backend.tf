@@ -1,9 +1,5 @@
 data "aws_caller_identity" "current" {}
 
-output "account_id" {
-  value = data.aws_caller_identity.current.account_id
-}
-
 
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
@@ -13,8 +9,8 @@ module "vpc" {
   cidr = "10.0.0.0/16"
 
   azs             = ["eu-west-1a", "eu-west-1b"]
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
+  private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
+  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24"]
 
   enable_nat_gateway = true
 
@@ -29,7 +25,7 @@ module "ec2_sg" {
   version = "5.2.0"
 
   name        = "ec2_sg"
-  vpc_id      = module.vpc.default_vpc_id
+  vpc_id      = module.vpc.vpc_id
 
   ingress_cidr_blocks      = ["0.0.0.0/0"]
   ingress_rules            = ["http-80-tcp"]
@@ -90,10 +86,10 @@ module "ec2_instance" {
 
   ami                    = "ami-08eb150f611ca277f"
   instance_type          = "t3.micro"
-  key_name               = "key"
+  key_name               = module.key_pair.key_pair_name
   vpc_security_group_ids = [ module.ec2_sg.security_group_id ]
   subnet_id              = module.vpc.private_subnets
-  iam_instance_profile   = "ecr-pull-instance-profile"
+  iam_instance_profile   = resource.aws_iam_instance_profile.ecr-pull-instance-profile.name
   associate_public_ip_address = true
   user_data              = <<EOF
           #!/bin/bash
@@ -116,6 +112,7 @@ module "ec2_instance" {
           REDIS_HOST=redis
           REDIS_PORT=${var.datbase_vars.REDIS_PORT}
           REDIS_DB=${var.datbase_vars.REDIS_DB}
+          REDIS_PASSWORD=${var.datebase_vars.REDIS_PASSWORD}
 
           CORS_ALLOWED_ORIGINS=http://${module.cloudfront.cloudfront_distribution_domain_name}" > vars.env
 
@@ -184,6 +181,15 @@ module "ec2_instance" {
   }
 }
 
+resource "local_file" "config_json" {
+  filename = "../frontend/config.json"
+  content = <<EOF
+              {
+                "BACKEND_RDS_URL": "http://${module.ec2_instance.public_ip}:8000/test_connection/",
+                "BACKEND_REDIS_URL": "http://${module.ec2_instance.public_ip}:8003/test_connection/"
+              }
+              EOF
+}
 module "s3-bucket_object" {
   source  = "terraform-aws-modules/s3-bucket/aws//modules/object"
   version = "4.2.2"
