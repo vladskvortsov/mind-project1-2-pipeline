@@ -18,3 +18,18 @@ output "cloudfront_distribution_domain_name" {
   value = module.cloudfront.cloudfront_distribution_domain_name
 }
 
+output "ec2_instance_ip" {
+  value = module.ec2_instance.public_ip
+}
+variable "datbase_vars" {
+  type = map
+    default =  {
+          "DB_NAME" = "mydb",
+          "DB_USER" = "dbuser",
+          "DB_PASSWORD" = "mypassword",
+          "DB_PORT" = "5432",
+
+          "REDIS_PORT" = "6379",
+          "REDIS_DB" = "0"
+  }
+}
