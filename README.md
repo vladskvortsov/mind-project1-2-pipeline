@@ -1,5 +1,5 @@
 # EC2-Cloudfront-S3-Deploy
-This pipeline deploys Cloudfront cache and s3 bucket for storing frontend, and VPC, security group, IAM instance profile and Ec2 instance for running backend containers. Containers are stored in the private ECR, and running using docker compose. For automation is used terraform code running on GitHub Actions.
+This pipeline deploys Cloudfront cache and S3 bucket for storing frontend, and VPC, security group, IAM instance profile and EC2 instance for running backend containers. Containers are stored in the private ECR, and running using docker compose. For automation used terraform code running on GitHub Actions.
 
 
 ## Technologies Used:
@@ -9,11 +9,11 @@ This pipeline deploys Cloudfront cache and s3 bucket for storing frontend, and V
 #### * _Terraform_
 #### * _GitHub Actions_
 
-## Requirements to Deploy the Project
+## Requirements to deploy the Project
 #### - AWS Account
 #### - Github Account
 
-## Infrastructure Diagram
+## Infrastructure diagram
 
 ![alt text](infrastructure.png)
 
@@ -26,7 +26,7 @@ A webpage and config.json hosted on S3, delivered via CloudFront for low-latency
 
 #### Backend Deployment
 Containerized backend services and databases using Docker Compose. Deployed on EC2 instances within a custom VPC.
-Secured with Security group for least priveleges access control.
+Secured with security group for least priveleges access control.
 
 #### Networking
 Configured custom VPC, public subnets, NAT gateways, and route tables.
@@ -42,18 +42,22 @@ GitHub Actions automate the deployment and management of the infrastructure.
 Step 1: Fork the Repository 
 
 Step 2: Configure GitHub Secrets
+
 Add the following secrets to your GitHub repository:
+
 ```sh
-AWS_ACCESS_KEY_ID: IAM access key for AWS API operations.
-AWS_SECRET_ACCESS_KEY: Secret key paired with the access key.
-AWS_REGION: The AWS region where resources will be created (e.g., us-east-1).
+AWS_ACCESS_KEY_ID: `IAM access key for AWS API operations.`
+AWS_SECRET_ACCESS_KEY: `Secret key paired with the access key.`
+AWS_REGION: `The AWS region where resources will be created (e.g., us-east-1).`
 ```
 
 Step 3: Run `Deploy Project` workflow to deploy the project
 > Note: Feel free to use `Deploy Frontend` or `Deploy Backend` workflows if required. Also you can use `Delete Resources` workflow to remove whole infrastructure including s3 bucket for terraform backend.
 
 Step 4: Access the Deployed Application
-Copy CloudFront URL from GitHub Actions output, and open the webpage from your browser.
+
+Copy CloudFront URL from GitHub Actions output, and open the webpage in your browser.
+
 > Note: Use `http://` connection for this project.
 
 ## Key Notes:
