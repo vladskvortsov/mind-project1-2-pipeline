@@ -1,9 +1,9 @@
 variable "AWS_ACCESS_KEY_ID" {
-    type = string
+  type = string
 }
 
 variable "AWS_SECRET_ACCESS_KEY" {
-    type = string
+  type = string
 }
 
 variable "AWS_REGION" {
@@ -15,7 +15,7 @@ variable "frontend_bucket_name" {
 }
 
 variable "database_vars" {
-  type = map
+  type = map(any)
 }
 
 output "cloudfront_distribution_domain_name" {

@@ -10,30 +10,30 @@ module "cloudfront" {
 
   create_origin_access_control = true
 
-origin_access_control = {
-  "s3_oac": {
-    "description": "",
-    "origin_type": "s3",
-    "signing_behavior": "always",
-    "signing_protocol": "sigv4"
+  origin_access_control = {
+    "s3_oac" : {
+      "description" : "",
+      "origin_type" : "s3",
+      "signing_behavior" : "always",
+      "signing_protocol" : "sigv4"
+    }
   }
-}
 
   origin = {
 
 
-  "${var.frontend_bucket_name}.s3.${var.AWS_REGION}.amazonaws.com" = { 
-      domain_name = "${var.frontend_bucket_name}.s3.${var.AWS_REGION}.amazonaws.com"
-      origin_access_control = "s3_oac" 
-      
+    "${var.frontend_bucket_name}.s3.${var.AWS_REGION}.amazonaws.com" = {
+      domain_name           = "${var.frontend_bucket_name}.s3.${var.AWS_REGION}.amazonaws.com"
+      origin_access_control = "s3_oac"
+
     }
   }
 
   default_cache_behavior = {
-    path_pattern           = "/*"
+    path_pattern = "/*"
 
-    target_origin_id           = "${var.frontend_bucket_name}.s3.${var.AWS_REGION}.amazonaws.com"
-    viewer_protocol_policy     = "allow-all"
+    target_origin_id       = "${var.frontend_bucket_name}.s3.${var.AWS_REGION}.amazonaws.com"
+    viewer_protocol_policy = "allow-all"
 
     allowed_methods = ["GET", "HEAD", "OPTIONS"]
     cached_methods  = ["GET", "HEAD"]

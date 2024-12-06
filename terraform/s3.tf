@@ -6,11 +6,11 @@ module "s3_bucket" {
 }
 
 module "s3-bucket_object" {
-  depends_on = [ module.s3_bucket ]
-  source  = "terraform-aws-modules/s3-bucket/aws//modules/object"
+  depends_on = [module.s3_bucket]
+  source     = "terraform-aws-modules/s3-bucket/aws//modules/object"
 
-  bucket = var.frontend_bucket_name
-  file_source = "../frontend/index.html"
-  key = "index.html"
+  bucket       = var.frontend_bucket_name
+  file_source  = "../frontend/index.html"
+  key          = "index.html"
   content_type = "html"
 }

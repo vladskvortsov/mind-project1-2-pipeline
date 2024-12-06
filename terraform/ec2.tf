@@ -34,18 +34,18 @@ resource "aws_iam_role" "ecr-pull-role" {
 module "ec2_instance" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
-  name           = "project1-2-backend"
+  name  = "project1-2-backend"
   count = 1
 
-  ami                    = "ami-08eb150f611ca277f"
-  instance_type          = "t3.micro"
-  key_name               = module.key_pair.key_pair_name
-  vpc_security_group_ids = [module.ec2_sg.security_group_id]
-  subnet_id              = module.vpc.public_subnets[0]
-  iam_instance_profile   = resource.aws_iam_instance_profile.ecr-pull-instance-profile.name
+  ami                         = "ami-08eb150f611ca277f"
+  instance_type               = "t3.micro"
+  key_name                    = module.key_pair.key_pair_name
+  vpc_security_group_ids      = [module.ec2_sg.security_group_id]
+  subnet_id                   = module.vpc.public_subnets[0]
+  iam_instance_profile        = resource.aws_iam_instance_profile.ecr-pull-instance-profile.name
   associate_public_ip_address = true
   user_data_replace_on_change = true
-  user_data              = <<-EOT
+  user_data                   = <<-EOT
     #!/bin/bash
     sudo apt update -y
     sudo apt install -y docker.io docker-compose
@@ -132,14 +132,14 @@ module "ec2_instance" {
   EOT
 
   tags = {
-    Terraform = "true"
+    Terraform   = "true"
     Environment = "dev"
   }
 }
 
 resource "local_file" "config_json" {
   filename = "../frontend/config.json"
-  content = <<EOF
+  content  = <<EOF
     {
     "BACKEND_RDS_URL": "http://${module.ec2_instance[0].public_ip}:8000/test_connection/",
     "BACKEND_REDIS_URL": "http://${module.ec2_instance[0].public_ip}:8003/test_connection/"
@@ -149,10 +149,10 @@ resource "local_file" "config_json" {
 
 module "s3-bucket_object-2" {
   depends_on = [resource.local_file.config_json]
-  source  = "terraform-aws-modules/s3-bucket/aws//modules/object"
+  source     = "terraform-aws-modules/s3-bucket/aws//modules/object"
 
-  bucket = var.frontend_bucket_name
-  file_source = "../frontend/config.json"
-  key = "config.json"
+  bucket       = var.frontend_bucket_name
+  file_source  = "../frontend/config.json"
+  key          = "config.json"
   content_type = "json"
 }
