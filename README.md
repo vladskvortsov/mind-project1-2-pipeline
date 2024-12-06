@@ -1,5 +1,8 @@
 # EC2-Cloudfront-S3-Deploy
-This pipeline deploys Cloudfront cache and S3 bucket for storing frontend, and VPC, security group, IAM instance profile and EC2 instance for running backend containers. Containers are stored in the private ECR, and running using docker compose. For automation used terraform code running on GitHub Actions.
+This pipeline deploys Cloudfront cache and S3 bucket for storing frontend also VPC, security group,
+IAM instance profile and EC2 instance for running backend containers. Containers are stored in
+the private ECR, and running using Docker Compose.
+For automation used terraform code running on GitHub Actions.
 
 
 ## Technologies Used:
@@ -26,13 +29,13 @@ A webpage and config.json hosted on S3, delivered via CloudFront for low-latency
 
 #### Backend Deployment
 Containerized backend services and databases using Docker Compose. Deployed on EC2 instances within a custom VPC.
-Secured with security group for least priveleges access control.
+Secured with security group for least privileges access control.
 
 #### Networking
 Configured custom VPC, public subnets, NAT gateways, and route tables.
 
 #### CI/CD Pipeline
-Terraform configurations stored in the repository.
+Terraform configurations are stored in the repository.
 GitHub Actions automate the deployment and management of the infrastructure.
 
 
@@ -51,17 +54,20 @@ AWS_SECRET_ACCESS_KEY: `Secret key paired with the access key.`
 AWS_REGION: `The AWS region where resources will be created (e.g., us-east-1).`
 ```
 
-Step 3: Run `Deploy Project` workflow to deploy the project
-> Note: Feel free to use `Deploy Frontend` or `Deploy Backend` workflows if required. Also you can use `Delete Resources` workflow to remove whole infrastructure including s3 bucket for terraform backend.
+Step 3: Run the `Deploy Project` workflow to deploy the project
+> Note: Feel free to use `Deploy Frontend` or `Deploy Backend` workflows if required. Also, you can use the `Delete Resources` workflow to remove whole infrastructure including S3 bucket for Terraform's backend.
 
 Step 4: Access the Deployed Application
 
-Copy CloudFront URL from GitHub Actions output, and open the webpage in your browser.
+Copy the CloudFront URL from GitHub Actions output, and open the webpage in your browser.
 
 > Note: Use `http://` connection for this project.
 
 ## Key Notes:
 > Resource Costs: Ensure you understand AWS pricing to manage project costs effectively.
+
 > Security: Use least privilege access for AWS credentials. `Don't paste AWS credentials anywhere excluding GitHub Secrets`
-> Debugging: You can monitor the infrastructure deploying in GitHub Actions logs, and findout errors if present.
-> Documentation: Don't foget to update the repository's `README.md` to reflect current workflows and configurations.
+
+> Debugging: You can monitor the infrastructure deploying in GitHub Actions logs, and find out errors if present.
+
+> Documentation: Don't forget to update the repository's `README.md` to reflect current workflows and configurations.
