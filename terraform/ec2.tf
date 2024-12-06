@@ -50,8 +50,8 @@ module "ec2_instance" {
     sudo apt update -y
     sudo apt install -y docker.io docker-compose
     sudo snap install aws-cli --classic
-    sudo aws configure set aws_access_key_id ${var.access_key}
-    sudo aws configure set aws_secret_access_key ${var.secret_key}
+    sudo aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}
+    sudo aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
     sudo aws ecr get-login-password --region ${var.region} | docker login --username AWS --password-stdin ${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com
     cd /home/ubuntu/
     echo "SECRET_KEY=my-secret-key
