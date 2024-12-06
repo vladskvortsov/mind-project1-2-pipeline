@@ -1,7 +1,3 @@
-access_key = ""
-
-secret_key = ""
-
 region = "eu-north-1"
 
 frontend_bucket_name = "project1-2-frontend"
