@@ -48,12 +48,12 @@ jobs:
 
     - name: Terraform plan
       id: plan
-      run: terraform plan -out plan
+      run: terraform plan -out=plan.tfplan
       continue-on-error: true
 
     - name: Terraform apply
       id: apply
-      run: terraform plan apply --auto-approve "plan"
+      run: terraform plan apply plan.tfplan
 
     - run: echo ${{ steps.plan.outputs.stdout }}
     - run: echo ${{ steps.plan.outputs.stderr }}
