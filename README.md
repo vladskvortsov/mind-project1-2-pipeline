@@ -1,5 +1,6 @@
 # EC2-Cloudfront-S3-Deploy
 This pipeline deploys Cloudfront cache and s3 bucket for storing frontend, and VPC, security group, IAM instance profile and Ec2 instance for running backend containers. Containers are stored in the private ECR, and running using docker compose. For automation is used terraform code running on GitHub Actions.
+![alt text](infrastructure.png)
 
 ## Technologies Used:
 
@@ -21,7 +22,7 @@ AWS_SECRET_ACCESS_KEY: Secret key paired with the access key.
 AWS_REGION: The AWS region where resources will be created (e.g., us-east-1).
 ```
 
-Project Overview
+## Project Overview
 Frontend Deployment
 Hosted on S3 for static website hosting.
 Delivered via CloudFront for low-latency content delivery and caching.
