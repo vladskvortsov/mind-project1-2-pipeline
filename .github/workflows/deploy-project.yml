@@ -48,18 +48,16 @@ jobs:
 
     - name: Terraform plan
       id: plan
-      run: terraform plan
+      run: terraform plan -out plan
       continue-on-error: true
-    
-
-    - run: echo ${{ steps.plan.outputs.stderr }}
-    - run: echo ${{ steps.plan.outputs.exitcode }}
 
     - name: Terraform apply
       id: apply
-      run: terraform plan apply --auto-approve
+      run: terraform plan apply --auto-approve "plan"
 
-
+    - run: echo ${{ steps.plan.outputs.stdout }}
+    - run: echo ${{ steps.plan.outputs.stderr }}
+    - run: echo ${{ steps.plan.outputs.exitcode }}
 
 # - uses: actions/github-script@v7
 #   if: github.event_name == 'pull_request'
