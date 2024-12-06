@@ -20,21 +20,22 @@ This pipeline deploys Cloudfront cache and s3 bucket for storing frontend, and V
 
 
 ## Project Overview
-Frontend Deployment
-Hosted on S3 for static website hosting.
-Delivered via CloudFront for low-latency content delivery and caching.
-Backend Deployment
-Containerized backend services using Docker Compose.
-Deployed on EC2 instances within a custom VPC.
-Secured with Security Groups for fine-grained access control.
-Database
-Managed RDS instance for persistent storage.
-Networking
-Configured VPC, public/private subnets, NAT gateways, and route tables.
-Security enhanced with Security Groups and Network ACLs.
-CI/CD Pipeline
+
+#### Frontend Deployment
+A webpage and config.json hosted on S3, delivered via CloudFront for low-latency content delivery and caching.
+
+#### Backend Deployment
+Containerized backend services and databases using Docker Compose. Deployed on EC2 instances within a custom VPC.
+Secured with Security group for least priveleges access control.
+
+#### Networking
+Configured custom VPC, public subnets, NAT gateways, and route tables.
+
+#### CI/CD Pipeline
 Terraform configurations stored in the repository.
 GitHub Actions automate the deployment and management of the infrastructure.
+
+
 
 
 ## Setup steps
@@ -59,4 +60,4 @@ Copy CloudFront URL from GitHub Actions output, and open the webpage from your b
 > Resource Costs: Ensure you understand AWS pricing to manage project costs effectively.
 > Security: Use least privilege access for AWS credentials. `Don't paste AWS credentials anywhere excluding GitHub Secrets`
 > Debugging: You can monitor the infrastructure deploying in GitHub Actions logs, and findout errors if present.
-> Documentation: Don't foget to update the repository’s README.md to reflect current workflows and configurations.
+> Documentation: Don't foget to update the repository's `README.md` to reflect current workflows and configurations.
