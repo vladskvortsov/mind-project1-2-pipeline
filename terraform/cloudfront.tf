@@ -22,8 +22,8 @@ origin_access_control = {
   origin = {
 
 
-  "${var.frontend_bucket_name}.s3.${var.region}.amazonaws.com" = { 
-      domain_name = "${var.frontend_bucket_name}.s3.${var.region}.amazonaws.com"
+  "${var.frontend_bucket_name}.s3.${var.AWS_REGION}.amazonaws.com" = { 
+      domain_name = "${var.frontend_bucket_name}.s3.${var.AWS_REGION}.amazonaws.com"
       origin_access_control = "s3_oac" 
       
     }
@@ -32,7 +32,7 @@ origin_access_control = {
   default_cache_behavior = {
     path_pattern           = "/*"
 
-    target_origin_id           = "${var.frontend_bucket_name}.s3.${var.region}.amazonaws.com"
+    target_origin_id           = "${var.frontend_bucket_name}.s3.${var.AWS_REGION}.amazonaws.com"
     viewer_protocol_policy     = "allow-all"
 
     allowed_methods = ["GET", "HEAD", "OPTIONS"]

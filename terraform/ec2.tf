@@ -50,9 +50,9 @@ module "ec2_instance" {
     sudo apt update -y
     sudo apt install -y docker.io docker-compose
     sudo snap install aws-cli --classic
-    sudo aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}
-    sudo aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
-    sudo aws ecr get-login-password --region ${var.region} | docker login --username AWS --password-stdin ${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com
+    sudo aws configure set aws_access_key_id ${var.AWS_ACCESS_KEY_ID}
+    sudo aws configure set aws_secret_access_key ${var.AWS_SECRET_ACCESS_KEY}
+    sudo aws ecr get-login-password --region ${var.AWS_REGION} | docker login --username AWS --password-stdin ${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.AWS_REGION}.amazonaws.com
     cd /home/ubuntu/
     echo "SECRET_KEY=my-secret-key
     DEBUG=False
@@ -102,7 +102,7 @@ module "ec2_instance" {
       backend_rds:
         env_file:
         - vars.env
-        image: ${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com/project1-2-backend:backend-rds
+        image: ${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.AWS_REGION}.amazonaws.com/project1-2-backend:backend-rds
         container_name: backend_rds
         ports:
         - "8000:8000"
@@ -113,7 +113,7 @@ module "ec2_instance" {
       backend_redis:
         env_file:
         - vars.env
-        image: ${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com/project1-2-backend:backend-redis
+        image: ${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.AWS_REGION}.amazonaws.com/project1-2-backend:backend-redis
         container_name: backend_redis
         ports:
         - "8003:8003"
