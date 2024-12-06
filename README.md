@@ -1,6 +1,6 @@
 # EC2-Cloudfront-S3-Deploy
 This pipeline deploys Cloudfront cache and s3 bucket for storing frontend, and VPC, security group, IAM instance profile and Ec2 instance for running backend containers. Containers are stored in the private ECR, and running using docker compose. For automation is used terraform code running on GitHub Actions.
-![alt text](infrastructure.png)
+
 
 ## Technologies Used:
 
@@ -12,6 +12,9 @@ This pipeline deploys Cloudfront cache and s3 bucket for storing frontend, and V
 ## Requirements to Deploy the Project
 #### - AWS Account
 #### - Github Account
+
+![alt text](infrastructure.png)
+
 
 ## Secrets Configuration
 The project requires these secrets in your GitHub repository:
