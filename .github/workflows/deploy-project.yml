@@ -57,7 +57,7 @@ jobs:
 
     - name: Terraform apply
       id: apply
-      run: terraform plan apply plan.tfplan
+      run: terraform apply plan.tfplan
 
 
 # - uses: actions/github-script@v7
