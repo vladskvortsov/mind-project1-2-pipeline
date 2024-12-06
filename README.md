@@ -13,17 +13,11 @@ This pipeline deploys Cloudfront cache and s3 bucket for storing frontend, and V
 #### - AWS Account
 #### - Github Account
 
+## Infrastructure Diagram
+
 ![alt text](infrastructure.png)
 
 
-## Secrets Configuration
-The project requires these secrets in your GitHub repository:
-
-```sh
-AWS_ACCESS_KEY_ID: IAM access key for AWS API operations.
-AWS_SECRET_ACCESS_KEY: Secret key paired with the access key.
-AWS_REGION: The AWS region where resources will be created (e.g., us-east-1).
-```
 
 ## Project Overview
 Frontend Deployment
