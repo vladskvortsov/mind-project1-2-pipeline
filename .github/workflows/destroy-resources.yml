@@ -8,9 +8,6 @@ env:
 jobs:
   destroy-resources:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./terraform
     strategy:
       matrix:
         directory: [tf-frontend, tf-backend]
@@ -27,10 +24,12 @@ jobs:
 
     - name: Terraform init
       id: init
+      working-directory: terraform/${{ matrix.directory }}
       run: terraform init
 
     - name: Terraform destroy
       id: destroy
+      working-directory: terraform/${{ matrix.directory }}
       run: terraform destroy --auto-approve
 
   remove-tfstate-bucket:
