@@ -28,8 +28,8 @@ For automation used terraform code running on GitHub Actions.
 A webpage and config.json hosted on S3, delivered via CloudFront for low-latency content delivery and caching.
 
 #### Backend Deployment
-Containerized backend services and databases using Docker Compose. Deployed on EC2 instances within a custom VPC.
-Secured with security group for least privileges access control.
+Containerized backend services and databases using Docker Compose. Deployed on EC2 instance within a custom VPC.
+Secured with security group for least privileges access control. Backend code and CI workflow stored in this repo: `https://github.com/vladskvortsov/mind-project1-2`.
 
 #### Networking
 Configured custom VPC, public subnets, NAT gateways, and route tables.
