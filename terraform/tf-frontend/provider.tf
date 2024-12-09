@@ -7,7 +7,7 @@ terraform {
   }
   backend "s3" {
     bucket = "project1-2-resources"
-    key    = "terraform.tfstate"
+    key    = "tf-frontend/terraform.tfstate"
     region = "eu-north-1"
   }
 }

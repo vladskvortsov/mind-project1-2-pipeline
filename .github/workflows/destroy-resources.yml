@@ -7,10 +7,10 @@ env:
   TF_VAR_AWS_REGION: ${{ secrets.AWS_REGION }}
 jobs:
   destroy-resources:
-    runs-on: ubuntu-latest 
-    defaults:
-      run:
-        working-directory: ./terraform
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory: [./terraform/tf-frontend, ./terraform/tf-backend]
     steps:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2

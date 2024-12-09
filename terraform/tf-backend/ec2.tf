@@ -1,5 +1,17 @@
 data "aws_caller_identity" "current" {}
 
+data "terraform_remote_state" "tf-frontend" {
+  backend = "s3"
+  config = {
+    bucket = "project1-2-resources"
+    key    = "tf-frontend/terraform.tfstate"
+    region = "eu-north-1"
+  }
+}
+
+
+
+
 module "key_pair" {
   source = "terraform-aws-modules/key-pair/aws"
 
@@ -68,7 +80,7 @@ module "ec2_instance" {
     REDIS_DB=${var.database_vars.REDIS_DB}
     REDIS_PASSWORD=${var.database_vars.REDIS_PASSWORD}
 
-    CORS_ALLOWED_ORIGINS=http://${module.cloudfront.cloudfront_distribution_domain_name}" > vars.env
+    CORS_ALLOWED_ORIGINS=http://${data.terraform_remote_state.tf-frontend.outputs.cloudfront_distribution_domain_name}" > vars.env
 
     echo '# version: '3.8'
     services:

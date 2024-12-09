@@ -19,9 +19,11 @@ variable "database_vars" {
 }
 
 output "cloudfront_distribution_domain_name" {
-  value = module.cloudfront.cloudfront_distribution_domain_name
+  value = data.terraform_remote_state.tf-frontend.outputs.cloudfront_distribution_domain_name
 }
 
 output "ec2_instance_ip" {
   value = module.ec2_instance[0].public_ip
 }
+
+

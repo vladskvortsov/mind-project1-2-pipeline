@@ -10,7 +10,7 @@ module "s3-bucket_object" {
   source     = "terraform-aws-modules/s3-bucket/aws//modules/object"
 
   bucket       = var.frontend_bucket_name
-  file_source  = "../frontend/index.html"
+  file_source  = "../../frontend/index.html"
   key          = "index.html"
   content_type = "html"
 }

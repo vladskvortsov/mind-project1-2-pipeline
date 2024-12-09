@@ -1,4 +1,7 @@
+data "aws_caller_identity" "current" {}
+
 module "cloudfront" {
+  depends_on = [module.s3_bucket]
   source = "terraform-aws-modules/cloudfront/aws"
 
 
@@ -22,8 +25,8 @@ module "cloudfront" {
   origin = {
 
 
-    "${var.frontend_bucket_name}.s3.${var.AWS_REGION}.amazonaws.com" = {
-      domain_name           = "${var.frontend_bucket_name}.s3.${var.AWS_REGION}.amazonaws.com"
+    "${var.frontend_bucket_name}.s3.amazonaws.com" = {
+      domain_name           = "${var.frontend_bucket_name}.s3.amazonaws.com"
       origin_access_control = "s3_oac"
 
     }
@@ -32,7 +35,7 @@ module "cloudfront" {
   default_cache_behavior = {
     path_pattern = "/*"
 
-    target_origin_id       = "${var.frontend_bucket_name}.s3.${var.AWS_REGION}.amazonaws.com"
+    target_origin_id       = "${var.frontend_bucket_name}.s3.amazonaws.com"
     viewer_protocol_policy = "allow-all"
 
     allowed_methods = ["GET", "HEAD", "OPTIONS"]
