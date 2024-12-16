@@ -38,10 +38,29 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "ecr-pull-role" {
-  name               = "ecr-pull-role"
+  name               = ["ecr-pull-role", "AmazonSSMManagedEC2InstanceDefaultPolicy"]
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
+
+data "aws_iam_policy_document" "ec2-connect" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Session"
+      identifiers = ["arn:aws:sts::194722414339:assumed-role/ec2-connect/GitHubActions"]
+    }
+
+    actions = ["sts:AssumeRole", "sts:TagSession"]
+  }
+}
+
+resource "aws_iam_role" "ec2-connect" {
+  name               = ["AmazonSSMFullAccess", "EC2InstanceConnect"]
+  assume_role_policy = data.aws_iam_policy_document.ec2-connect.json
+}
+
 
 module "ec2_instance" {
   source = "terraform-aws-modules/ec2-instance/aws"
