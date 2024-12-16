@@ -19,9 +19,9 @@ module "key_pair" {
   create_private_key = true
 }
 
-resource "aws_iam_instance_profile" "ecr-pull-instance-profile" {
-  name = "ecr-pull-instance-profile"
-  role = aws_iam_role.ecr-pull-role.name
+resource "aws_iam_instance_profile" "ecr-pull-ssm-connect-instance-profile" {
+  name = "ecr-pull-ssm-connect-instance-profile"
+  role = aws_iam_role.ecr-pull-ssm-connect-role.name
 }
 
 data "aws_iam_policy_document" "assume_role" {
@@ -37,11 +37,21 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
-resource "aws_iam_role" "ecr-pull-role" {
-  name               = ["ecr-pull-role", "AmazonSSMManagedEC2InstanceDefaultPolicy"]
-  path               = "/"
+resource "aws_iam_role" "ecr-pull-ssm-connect-role" {
+  name               = "ecr-pull-ssm-connect-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
+
+resource "aws_iam_role_policy_attachment" "ecr-pull-ssm-connect-role-1" {
+  role       = aws_iam_role.ecr-pull-ssm-connect-role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedEC2InstanceDefaultPolicy"
+}
+
+resource "aws_iam_role_policy_attachment" "ecr-pull-ssm-connect-role-2" {
+  role       = aws_iam_role.ecr-pull-ssm-connect-role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly"
+}
+
 
 data "aws_iam_policy_document" "ec2-connect" {
   statement {
@@ -57,10 +67,19 @@ data "aws_iam_policy_document" "ec2-connect" {
 }
 
 resource "aws_iam_role" "ec2-connect" {
-  name               = ["AmazonSSMFullAccess", "EC2InstanceConnect"]
+  name               = "ec2-connect"
   assume_role_policy = data.aws_iam_policy_document.ec2-connect.json
 }
 
+resource "aws_iam_role_policy_attachment" "ec2-connect-1" {
+  role       = aws_iam_role.ec2-connect.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
+
+}
+resource "aws_iam_role_policy_attachment" "ec2-connect-2" {
+  role       = aws_iam_role.ec2-connect.name
+  policy_arn = "arn:aws:iam::aws:policy/EC2InstanceConnect"
+}
 
 module "ec2_instance" {
   source = "terraform-aws-modules/ec2-instance/aws"
@@ -73,7 +92,7 @@ module "ec2_instance" {
   key_name                    = module.key_pair.key_pair_name
   vpc_security_group_ids      = [module.ec2_sg.security_group_id]
   subnet_id                   = module.vpc.public_subnets[0]
-  iam_instance_profile        = resource.aws_iam_instance_profile.ecr-pull-instance-profile.name
+  iam_instance_profile        = resource.aws_iam_instance_profile.ecr-pull-ssm-connect-instance-profile.name
   associate_public_ip_address = true
   user_data_replace_on_change = true
   user_data                   = <<-EOT
