@@ -58,7 +58,7 @@ data "aws_iam_policy_document" "ec2-connect" {
     effect = "Allow"
 
     principals {
-      type        = "Session"
+      type        = "AWS"
       identifiers = ["arn:aws:sts::194722414339:assumed-role/ec2-connect/GitHubActions"]
     }
 
