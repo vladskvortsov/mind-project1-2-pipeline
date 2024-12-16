@@ -58,8 +58,8 @@ data "aws_iam_policy_document" "ec2-connect" {
     effect = "Allow"
 
     principals {
-      type        = "Sessions"
-      identifiers = ["arn:aws:sts::${data.aws_caller_identity.current.account_id}:assumed-role/ec2-connect/GitHubActions"]
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::194722414339:user/user", "arn:aws:sts::194722414339:assumed-role/ec2-connect/GitHubActions"]
     }
 
     actions = ["sts:AssumeRole", "sts:TagSession"]
