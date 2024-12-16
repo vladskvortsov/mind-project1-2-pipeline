@@ -26,6 +26,13 @@ module "ec2_sg" {
   ingress_rules       = ["http-80-tcp", "ssh-tcp"]
 
   ingress_with_cidr_blocks = [
+    
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = "0.0.0.0/0"
+    },
     {
       from_port   = 8000
       to_port     = 8000
