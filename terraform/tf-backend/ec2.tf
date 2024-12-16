@@ -59,7 +59,7 @@ data "aws_iam_policy_document" "ec2-connect" {
 
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::194722414339:user/user", "arn:aws:sts::194722414339:assumed-role/ec2-connect/GitHubActions"]
+      identifiers = ["arn:aws:iam::194722414339:user/user","arn:aws:sts::194722414339:assumed-role/ec2-connect/GitHubActions"]
     }
 
     actions = ["sts:AssumeRole", "sts:TagSession"]
