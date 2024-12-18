@@ -152,7 +152,7 @@ module "ec2_instance" {
       backend_rds:
         env_file:
         - vars.env
-        image: ${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.AWS_REGION}.amazonaws.com/project1-2-backend:backend-rds
+        image: ${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.AWS_REGION}.amazonaws.com/project1-2-rds-backend:latest
         container_name: backend_rds
         ports:
         - "8000:8000"
@@ -163,7 +163,7 @@ module "ec2_instance" {
       backend_redis:
         env_file:
         - vars.env
-        image: ${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.AWS_REGION}.amazonaws.com/project1-2-backend:backend-redis
+        image: ${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.AWS_REGION}.amazonaws.com/project1-2-redis-backend:latest
         container_name: backend_redis
         ports:
         - "8003:8003"
